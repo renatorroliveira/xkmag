@@ -1,0 +1,14 @@
+SOURCES:
+/media/renato/DADOS/Linux/Programming/kmag-4.12.3/kmagzoomview.cpp;/media/renato/DADOS/Linux/Programming/kmag-4.12.3/kmagselrect.cpp;/media/renato/DADOS/Linux/Programming/kmag-4.12.3/kmag.cpp;/media/renato/DADOS/Linux/Programming/kmag-4.12.3/colorsim.cpp;/media/renato/DADOS/Linux/Programming/kmag-4.12.3/main.cpp
+MOC_COMPILE_DEFINITIONS:
+_BSD_SOURCE;_XOPEN_SOURCE=500;_BSD_SOURCE;QT_NO_STL;QT_NO_CAST_TO_ASCII;_REENTRANT;KDE_DEPRECATED_WARNINGS;KDE4_CMAKE_TOPLEVEL_DIR_LENGTH=37;QT_NO_CAST_FROM_ASCII;QT_NO_CAST_TO_ASCII;QT_USE_FAST_CONCATENATION;QT_USE_FAST_OPERATOR_PLUS
+MOC_DEFINITIONS:
+ -D_BSD_SOURCE -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_GNU_SOURCE -D_LARGEFILE64_SOURCE -DQT_NO_STL -DQT_NO_CAST_TO_ASCII -D_REENTRANT -DKDE_DEPRECATED_WARNINGS -DKDE4_CMAKE_TOPLEVEL_DIR_LENGTH=37 -DQT_NO_CAST_FROM_ASCII -DQT_NO_CAST_TO_ASCII -DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS
+MOC_INCLUDES:
+/media/renato/DADOS/Linux/Programming/kmag-4.12.3;/media/renato/DADOS/Linux/Programming/kmag-4.12.3;/usr/include;/usr/include/KDE;/usr/include/KDE;/usr/include;/usr/include/qt4/phonon;/usr/include/qt4/QtXmlPatterns;/usr/include/qt4/QtXml;/usr/include/qt4/QtWebKit;/usr/include/qt4/QtUiTools;/usr/include/qt4/QtTest;/usr/include/qt4/QtSvg;/usr/include/qt4/QtSql;/usr/include/qt4/QtScriptTools;/usr/include/qt4/QtScript;/usr/include/qt4/QtOpenGL;/usr/include/qt4/QtNetwork;/usr/include/qt4/QtHelp;/usr/include/qt4/QtDesigner;/usr/include/qt4/QtDesigner;/usr/include/qt4/QtDeclarative;/usr/include/qt4/QtDBus;/usr/include/qt4/Qt3Support;/usr/include/qt4/QtGui;/usr/include/qt4/QtCore;/usr/include/qt4/Qt;/usr/share/qt4/mkspecs/default;/usr/include/qt4;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include
+CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE:
+ON
+CMAKE_BINARY_DIR:
+/media/renato/DADOS/Linux/Programming/kmag-4.12.3
+CMAKE_SOURCE_DIR:
+/media/renato/DADOS/Linux/Programming/kmag-4.12.3

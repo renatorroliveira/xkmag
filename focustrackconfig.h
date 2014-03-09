@@ -1,0 +1,1 @@
+#define QAccessibilityClient_FOUND

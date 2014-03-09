@@ -1,0 +1,63 @@
+//$Id$
+
+ver 0.8	
+-Mouse cursor is now visible
+-Complete reference manual
+-Fit-to-window for zoom view
+-ported to KDE3 (still works under KDE2)
+-Using bitBlt to reduce flicker even more
+-Proper centering of zoomed image
+-Some qt3 specific additions
+-Mouse cursor in printing
+-Smooth mouse movements inside zoom vew (very low CPU consumption)
+-Zero CPU usage when magnifier window is hidden/minimized
+-Using default key shortcuts for various actions
+-Checkbox to show/hide mouse cursor
+-Shortcut key binding configuration
+-Moved to XML GUI
+-New "Settings" menu in the toolbar
+-Toolbar configuration
+
+ver 0.7
+-Printing and compiling for KDE 2.x
+-Saving files to remote locations
+-BUG_FIX:Saved image used to get saved to home directory
+-BUG_FIX:Zoom selection window could go below the bottom edge of the screen
+
+ver 0.6
+-Printing support
+-Saving zoomed image to disk
+-Saving/Restoring settings to/from config file
+-New grab-and-move mode for moving zoom region
+-Magnification with mouse movement
+-Option to always show selected region
+-Ability to change refresh rate
+-Copy zoomed image to clipboard
+-More cleaner/bare minimal GUI
+-Tons of code cleanup
+
+ver 0.5
+-No more garbage when the grab window is taken outside the screen
+-Added a convenient drop down menu to select the zoom factor
+-A new refresh button to start/stop window refresh when needed
+-Added "tooltips" and "What's this" at lots of places
+-New install and install-user scripts for easy installation
+-Tons of code cleanup
+
+ver 0.4
+-No more flickering!
+
+ver 0.3
+-Fixed a slow-refresh bug.. making KMag 100% usable!
+-Made resizing grab window much more easier (esp. for laptops!)
+-GUI improvements.. got rid of sliders.. introduced zoom icons
+-Centered display of magnified contents
+-Now using Kdevelop 1.4b2..
+-Added documentation
+
+ver 0.2
+-First public release for the KDE2 port and rewrite
+-Feature enhancements : Easy  moving and resizing of grab-window
+
+ver 0.1
+-First public release for KDE1
