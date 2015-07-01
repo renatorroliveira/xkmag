@@ -62,7 +62,7 @@
 #include <kglobal.h>
 #include <kdeprintdialog.h>
 #include <kinputdialog.h>
-#include <kwindowsystem.h>
+#include <kwindowsystem.h>	
 
 // application specific includes
 #include "kmag.moc"
