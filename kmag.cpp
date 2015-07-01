@@ -744,19 +744,21 @@ void KmagApp::slotModeChanged()
 
 void KmagApp::slotModeEdge()
 {
-  // ask for edgesize
-  int newedgesize; bool ok;
-  newedgesize = KInputDialog::getInteger (i18n ("Magnify to Screen Edge - Select Size"),
+  if (m_modeEdge->isChecked()) {
+    // ask for edgesize
+    int newedgesize; bool ok;
+    newedgesize = KInputDialog::getInteger (i18n ("Magnify to Screen Edge - Select Size"),
                                           i18n ("Size:"), edgeSize > 0 ? edgeSize : 300,
 					  100, 300,
                                           20, &ok, this);
-  if (ok) {
-    edgeSize = newedgesize;
-    m_modeFollowMouse->setChecked(true);
-#ifdef QAccessibilityClient_FOUND
-    m_modeFollowFocus->setChecked(true);
-#endif
-    slotModeChanged();
+    if (ok) {
+      edgeSize = newedgesize;
+      setEdgeMode(1);
+    } else {
+      unsetEdgeMode();
+    }
+  } else {
+    unsetEdgeMode();
   }
 }
 
@@ -770,32 +772,40 @@ void KmagApp::setEdgeMode(int position) {
       edgesize = QApplication::desktop()->screenGeometry( this ).height()/4;
   }
 */
+  m_modeFollowMouse->setChecked(true);
+#ifdef QAccessibilityClient_FOUND
+    m_modeFollowFocus->setChecked(true);
+#endif
+    slotModeChanged();
 
   m_modeEdge->setChecked(true);
 
   m_zoomView->setFitToWindow(true);
-  m_zoomView->setParent (0);
-  KWindowSystem::setType(m_zoomView->winId(), NET::Dock);
-  KWindowSystem::setState(m_zoomView->winId(), NET::Sticky | NET::KeepBelow | NET::SkipTaskbar | NET::SkipPager);
-  KWindowSystem::setOnAllDesktops(m_zoomView->winId(), true);
-
-  hide();
+  
+  /*m_zoomView->setParent (0);
+  KWindowSystem::setType(m_zoomView->winId(), NET::TopMenu);
+  KWindowSystem::setState(m_zoomView->winId(), NET::Sticky | NET::KeepBelow | NET::SkipTaskbar | NET::SkipPager | NET::MaxHoriz);
+  KWindowSystem::setOnAllDesktops(m_zoomView->winId(), true);*/
+  this->setParent (0);
+  KWindowSystem::setType(winId(), NET::Dock);
+  KWindowSystem::setState(winId(), NET::Sticky | NET::KeepBelow | NET::SkipTaskbar | NET::SkipPager | NET::MaxHoriz);
+  KWindowSystem::setOnAllDesktops(winId(), true);
 
   QRect r = QApplication::desktop()->screenGeometry( this );
-    r.setBottom( r.top() + edgeSize );
-    m_zoomView->setGeometry ( r );
-    KWindowSystem::setExtendedStrut (m_zoomView->winId(), 0, 0, 0, 0, 0, 0,
+  r.setBottom(r.top()+edgeSize);
+  setGeometry(r);
+  KWindowSystem::setExtendedStrut (winId(), 0, 0, 0, 0, 0, 0,
                             edgeSize, r.left(), r.right(), 0, 0, 0);
-  m_zoomView->show();
+  show();
 }
 
 void KmagApp::unsetEdgeMode ()
 {
   edgeSize = 0;
-
   m_modeEdge->setChecked(false);
-  m_zoomView->setParent(this);
-  setCentralWidget(m_zoomView);
+  //m_zoomView->setParent(this);
+  //setCentralWidget(m_zoomView);
+  KWindowSystem::setType(winId(), NET::Normal);
   KWindowSystem::setExtendedStrut(winId(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   show();
 }
