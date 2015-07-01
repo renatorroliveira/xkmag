@@ -1,3 +1,11 @@
+CTestTestfile.cmake
+FindPackageLog.txt
+doc/CTestTestfile.cmake
+doc/index.html
+focustrackconfig.h
+kmag.app/
+kmag_automoc.cpp.files
+pics/CTestTestfile.cmake
 CMakeTmp
 CMakeCache.txt
 CMakeFiles
@@ -5,3 +13,5 @@ Makefile
 cmake_install.cmake
 cmake_uninstall.cmake
 install_manifest.txt
+/build
+*.moc

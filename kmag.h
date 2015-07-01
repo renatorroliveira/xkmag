@@ -34,6 +34,7 @@
 // include files for KDE
 #include <kxmlguiwindow.h>
 #include <kaction.h>
+//#include <k3dockwidget.h>
 #include <knuminput.h>
 #include <kconfig.h>
 
@@ -108,6 +109,7 @@ class KmagApp : public KXmlGuiWindow
     void slotModeChanged();
     void slotModeWholeScreen();
     void slotModeSelWin();
+    void slotModeEdge();
 
     /// Zooms in
     void zoomIn();
@@ -177,8 +179,13 @@ class KmagApp : public KXmlGuiWindow
 
     /// This signal is raised whenever the color value changes
     void updateColorValue(int);
-
+    
   private:
+    void setEdgeMode (int);
+    void unsetEdgeMode ();
+    int edgePosition;
+    int edgeSize;
+    
     /// the configuration object of the application
     KSharedConfigPtr config;
 
@@ -221,8 +228,8 @@ class KmagApp : public KXmlGuiWindow
 
   KMagZoomView* m_zoomView;
   KToggleAction *m_hideCursor, *m_staysOnTop;
-  KToggleAction *m_modeFollowMouse, *m_modeFollowFocus, *m_modeWholeScreen, *m_modeSelWin;
-
+  KToggleAction *m_modeFollowMouse, *m_modeFollowFocus, *m_modeWholeScreen, *m_modeSelWin, *m_modeEdge;
+  
   /// Stores the non-zero cursor type to be used
   unsigned int m_mouseCursorType;
 

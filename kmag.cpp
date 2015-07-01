@@ -61,6 +61,8 @@
 #include <kedittoolbar.h>
 #include <kglobal.h>
 #include <kdeprintdialog.h>
+#include <kinputdialog.h>
+#include <kwindowsystem.h>
 
 // application specific includes
 #include "kmag.moc"
@@ -182,6 +184,14 @@ void KmagApp::initActions()
   m_modeFollowMouse->setToolTip(i18n("Magnify around the mouse cursor"));
   m_modeFollowMouse->setWhatsThis(i18n("If selected, the area around the mouse cursor is magnified"));
 
+  m_modeEdge = new KToggleAction(KIcon(QLatin1String( "edgedock" )), i18n("&Edge Docked Mode"), this);
+  actionCollection()->addAction(QLatin1String( "mode_edgedock" ), m_modeEdge);
+  connect(m_modeEdge, SIGNAL(triggered(bool)), SLOT(slotModeEdge()));
+  m_modeEdge->setShortcut(Qt::Key_F8);
+  m_modeEdge->setIconText(i18n("Edge"));
+  m_modeEdge->setToolTip(i18n("Zoomed window docked at screen edge."));
+  m_modeEdge->setWhatsThis(i18n("If selected, the zoomed view will be docked at a screen edge."));
+  
 #ifdef QAccessibilityClient_FOUND
 
   m_modeFollowFocus = new KToggleAction(KIcon(QLatin1String( "view-restore" )), i18n("&Follow Focus Mode"), this);
@@ -332,7 +342,9 @@ void KmagApp::saveOptions()
   cg.writeEntry("ShowMouse", m_zoomView->getShowMouseType());
   cg.writeEntry("StaysOnTop", m_staysOnTop->isChecked());
 
-  if (m_modeFollowMouse->isChecked())
+  if (m_modeEdge->isChecked())
+     cg.writeEntry("Mode", "edgedock");
+  else if (m_modeFollowMouse->isChecked())
      cg.writeEntry("Mode", "followmouse");
 #ifdef QAccessibilityClient_FOUND
   else if (m_modeFollowFocus->isChecked())
@@ -342,6 +354,9 @@ void KmagApp::saveOptions()
      cg.writeEntry("Mode", "wholescreen");
   else if (m_modeSelWin->isChecked())
      cg.writeEntry("Mode", "selectionwindow");
+  
+  cg.writeEntry("EdgePosition", edgePosition);
+  cg.writeEntry("EdgeSize", edgeSize);
 }
 
 
@@ -385,6 +400,10 @@ void KmagApp::readOptions()
   unsigned int colorIndex = cg.readEntry("ColorIndex", 0);
   setColorIndex(colorIndex);
   emit updateColorIndex(colorIndex);
+  
+  this->edgePosition = cg.readEntry("EdgePosition", 0);
+  this->edgeSize = cg.readEntry("EdgeSize", 0);
+  
 /*
   QString mode = cg.readEntry("Mode", "followmouse");
   if (mode == QLatin1String( "wholescreen" )) {
@@ -721,6 +740,64 @@ void KmagApp::slotModeChanged()
 #endif
 
   }
+}
+
+void KmagApp::slotModeEdge()
+{
+  // ask for edgesize
+  int newedgesize; bool ok;
+  newedgesize = KInputDialog::getInteger (i18n ("Magnify to Screen Edge - Select Size"),
+                                          i18n ("Size:"), edgeSize > 0 ? edgeSize : 300,
+					  100, 300,
+                                          20, &ok, this);
+  if (ok) {
+    edgeSize = newedgesize;
+    m_modeFollowMouse->setChecked(true);
+#ifdef QAccessibilityClient_FOUND
+    m_modeFollowFocus->setChecked(true);
+#endif
+    slotModeChanged();
+  }
+}
+
+void KmagApp::setEdgeMode(int position) {
+/*
+  if (m_modeEdgeLeft || mode == m_modeEdgeRight) {
+    if (edgesize < 200 || edgesize > QApplication::desktop()->screenGeometry( this ).width()/2)
+      edgesize = QApplication::desktop()->screenGeometry( this ).width()/4;
+  } else {
+    if (edgesize < 200 || edgesize > QApplication::desktop()->screenGeometry( this ).height()/2)
+      edgesize = QApplication::desktop()->screenGeometry( this ).height()/4;
+  }
+*/
+
+  m_modeEdge->setChecked(true);
+
+  m_zoomView->setFitToWindow(true);
+  m_zoomView->setParent (0);
+  KWindowSystem::setType(m_zoomView->winId(), NET::Dock);
+  KWindowSystem::setState(m_zoomView->winId(), NET::Sticky | NET::KeepBelow | NET::SkipTaskbar | NET::SkipPager);
+  KWindowSystem::setOnAllDesktops(m_zoomView->winId(), true);
+
+  hide();
+
+  QRect r = QApplication::desktop()->screenGeometry( this );
+    r.setBottom( r.top() + edgeSize );
+    m_zoomView->setGeometry ( r );
+    KWindowSystem::setExtendedStrut (m_zoomView->winId(), 0, 0, 0, 0, 0, 0,
+                            edgeSize, r.left(), r.right(), 0, 0, 0);
+  m_zoomView->show();
+}
+
+void KmagApp::unsetEdgeMode ()
+{
+  edgeSize = 0;
+
+  m_modeEdge->setChecked(false);
+  m_zoomView->setParent(this);
+  setCentralWidget(m_zoomView);
+  KWindowSystem::setExtendedStrut(winId(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  show();
 }
 
 void KmagApp::slotToggleHideCursor()
